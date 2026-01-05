@@ -1,0 +1,62 @@
+# .gitignore
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+.classpath
+.project
+.settings/
+dependency-reduced-pom.xml
+
+# Gradle
+.gradle/
+gradle/
+
+# Node (if used)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Text files in resources (documentation/config files)
+src/main/resources/*.txt
+
+# SQL migration scripts (optional - keep if you want to track)
+# src/main/resources/*.sql
+
+# PowerShell scripts in resources
+src/main/resources/*.ps1
+
+# IntelliJ specific
+*.iml
+.idea/
+out/
+
+# VS Code
+.vscode/
+launch.json
