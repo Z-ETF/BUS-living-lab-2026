@@ -35,6 +35,9 @@ logs/
 .env
 .env.local
 
+# Documentation
+docs/
+
 # Node/Frontend (if applicable)
 node_modules/
 npm-debug.log
