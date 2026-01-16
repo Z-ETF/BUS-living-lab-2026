@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> response = new HashMap<>();
         response.put("success", false);
         response.put("message", "Internal server error: " + ex.getMessage());
-        response.put("timestamp", java.time.LocalDateTime.now().toString());
+        response.put("timestamp", java.time.Instant.now().toString()); // Uses UTC with Z suffix
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> response = new HashMap<>();
         response.put("success", false);
         response.put("message", "Bad request: " + ex.getMessage());
-        response.put("timestamp", java.time.LocalDateTime.now().toString());
+        response.put("timestamp", java.time.Instant.now().toString()); // Uses UTC with Z suffix
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }

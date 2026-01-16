@@ -4,7 +4,6 @@ import com.iot.soil.dto.response.SensorDataResponse;
 import com.iot.soil.entity.MeasurementType;
 import com.iot.soil.entity.Sensor;
 import com.iot.soil.entity.SensorData;
-import com.iot.soil.enums.MeasurementProperty;
 import com.iot.soil.repository.MeasurementTypeRepository;
 import com.iot.soil.repository.SensorDataRepository;
 import com.iot.soil.repository.SensorRepository;
@@ -34,16 +33,17 @@ public class SensorQueryService {
     // ========== PRIVATNE POMOĆNE METODE ==========
 
     /**
-     * Sortira listu MeasurementData prema redosledu definisanom u MeasurementProperty enum-u
+     * Sortira listu MeasurementData prema redosledu iz baze (order_number iz measurement_types)
      */
     private void sortMeasurementData(List<SensorDataResponse.MeasurementData> dataList) {
         if (dataList == null || dataList.isEmpty()) {
             return;
         }
 
-        dataList.sort(Comparator.comparingInt(
-                data -> MeasurementProperty.getOrderForProperty(data.getProperty())
-        ));
+        dataList.sort(Comparator.comparingInt(data -> {
+            // Ako nema orderNumber, koristi default vrednost
+            return data.getOrderNumber() != null ? data.getOrderNumber() : Integer.MAX_VALUE;
+        }));
     }
 
     /**
@@ -77,6 +77,7 @@ public class SensorQueryService {
                 .property(measurementType.getDisplayName())
                 .unit(measurementType.getUnitLabel() != null ?
                         measurementType.getUnitLabel() : "")
+                .orderNumber(measurementType.getOrderNumber())
                 .values(valueDataList)
                 .build();
 
@@ -118,6 +119,7 @@ public class SensorQueryService {
                 .property(measurementType.getDisplayName())
                 .unit(measurementType.getUnitLabel() != null ?
                         measurementType.getUnitLabel() : "")
+                .orderNumber(measurementType.getOrderNumber())
                 .values(valueDataList)
                 .build();
 

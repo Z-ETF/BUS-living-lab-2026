@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iot.soil.dto.request.SensorObservationRequest;
 import com.iot.soil.entity.*;
 import com.iot.soil.repository.*;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,16 +27,25 @@ public class SensorDataService {
     private final SensorDataRepository sensorDataRepository;
     private final SensorMeasurementTypeRepository sensorMeasurementTypeRepository;
     private final SensorContextService sensorContextService;
+    private final UnitMappingRepository unitMappingRepository;
     private final ObjectMapper objectMapper;
 
-    private static final Map<String, String> UNIT_MAP = new HashMap<>();
+    private Map<String, String> unitMap;
 
-    static {
-        UNIT_MAP.put("unit:PERCENT", "%");
-        UNIT_MAP.put("unit:DEG_C", "°C");
-        UNIT_MAP.put("unit:MilliS-PER-CentiM", "mS/cm");
-        UNIT_MAP.put("unit:MilliGM-PER-KiloGM", "mg/kg");
+    @PostConstruct
+    private void loadUnitMappings() {
+        unitMap = new HashMap<>();
+        unitMappingRepository.findAll().forEach(mapping ->
+            unitMap.put(mapping.getUnitCode(), mapping.getUnitLabel())
+        );
+        log.info("Loaded {} unit mappings from database", unitMap.size());
     }
+
+    public void refreshUnitMappings() {
+        loadUnitMappings();
+        log.info("Unit mappings refreshed successfully");
+    }
+
 
     @Transactional
     public String processSensorObservation(SensorObservationRequest request) {
@@ -102,23 +111,23 @@ public class SensorDataService {
         Double value = observation.getHasResult().getNumericValue();
         String unit = observation.getHasResult().getUnit();
 
-        // Parsiraj timestamp kao LocalDateTime u UTC+1
-        LocalDateTime timestamp = parseTimestamp(observation.getPhenomenonTime());
+        // Parse timestamp directly as Instant (UTC)
+        Instant observationTime = Instant.parse(observation.getPhenomenonTime());
 
         // 1. Sačuvaj ili ažuriraj tip merenja
         MeasurementType measurementType = saveOrUpdateMeasurementType(measurementTypeId, unit);
 
-        // 2. Poveži senzor i tip merenja (koristi LocalDateTime UTC+1)
-        linkSensorToMeasurementType(sensor.getSensorId(), measurementType.getTypeId(), timestamp);
+        // 2. Poveži senzor i tip merenja (koristi Instant UTC)
+        linkSensorToMeasurementType(sensor.getSensorId(), measurementType.getTypeId(), observationTime);
 
         // 3. Sačuvaj podatke
         saveSensorData(sensor.getSensorId(), measurementType.getTypeId(),
-                value, unit, timestamp, location, observation);
+                value, unit, observationTime, location, observation);
     }
 
     private MeasurementType saveOrUpdateMeasurementType(String typeId, String unit) {
         String displayName = convertTypeIdToDisplayName(typeId);
-        String unitLabel = UNIT_MAP.getOrDefault(unit, "");
+        String unitLabel = unitMap.getOrDefault(unit, "");
 
         Optional<MeasurementType> existingType = measurementTypeRepository.findById(typeId);
 
@@ -150,27 +159,27 @@ public class SensorDataService {
         return typeId;
     }
 
-    private void linkSensorToMeasurementType(String sensorId, String measurementTypeId, LocalDateTime timestamp) {
+    private void linkSensorToMeasurementType(String sensorId, String measurementTypeId, Instant observationTime) {
         SensorMeasurementTypeId id = new SensorMeasurementTypeId(sensorId, measurementTypeId);
 
         Optional<SensorMeasurementType> existingLink = sensorMeasurementTypeRepository.findById(id);
 
         if (existingLink.isPresent()) {
             SensorMeasurementType link = existingLink.get();
-            link.setLastObserved(timestamp); // Ovo će biti UTC+1
+            link.setLastObserved(observationTime);
             sensorMeasurementTypeRepository.save(link);
         } else {
             SensorMeasurementType link = SensorMeasurementType.builder()
                     .id(id)
                     .isActive(true)
-                    .lastObserved(timestamp) // Ovo će biti UTC+1
+                    .lastObserved(observationTime)
                     .build();
             sensorMeasurementTypeRepository.save(link);
         }
     }
 
     private void saveSensorData(String sensorId, String measurementTypeId,
-                                Double value, String unit, LocalDateTime timestamp,
+                                Double value, String unit, Instant timestamp,
                                 String location, SensorObservationRequest.Observation observation)
             throws JsonProcessingException {
 
@@ -181,26 +190,11 @@ public class SensorDataService {
                 .measurementType(measurementTypeId)
                 .value(value)
                 .unit(unit)
-                .timestamp(Instant.parse(observation.getPhenomenonTime())) // Ovo ostaje Instant (UTC)
+                .timestamp(timestamp) // Use Instant directly
                 .location(location)
                 .rawData(rawData)
                 .build();
 
         sensorDataRepository.save(sensorData);
-    }
-
-    private LocalDateTime parseTimestamp(String timestampStr) {
-        try {
-            // Parsiraj kao Instant (UTC)
-            Instant instant = Instant.parse(timestampStr);
-
-            // Konvertuj u LocalDateTime u vašoj zoni (UTC+1)
-            ZoneId belgradeZone = ZoneId.of("Europe/Belgrade");
-            return LocalDateTime.ofInstant(instant, belgradeZone);
-
-        } catch (Exception e) {
-            log.warn("Failed to parse timestamp: {}, using current Belgrade time", timestampStr);
-            return LocalDateTime.now(ZoneId.of("Europe/Belgrade"));
-        }
     }
 }

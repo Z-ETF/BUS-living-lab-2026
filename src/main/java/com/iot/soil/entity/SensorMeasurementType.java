@@ -3,8 +3,7 @@ package com.iot.soil.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 
 @Entity
 @Table(name = "sensor_measurement_types")
@@ -21,8 +20,9 @@ public class SensorMeasurementType {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
-    @Column(name = "last_observed")
-    private LocalDateTime lastObserved; // Promenjeno u LocalDateTime
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_observed", columnDefinition = "TIMESTAMP(6)")
+    private Instant lastObserved; // Instant for proper UTC storage
 
     @Column(name = "min_threshold")
     private Double minThreshold;
@@ -30,12 +30,6 @@ public class SensorMeasurementType {
     @Column(name = "max_threshold")
     private Double maxThreshold;
 
-    @PrePersist
-    @PreUpdate
-    public void updateLastObserved() {
-        // Ovo će se pozvati kada se ručno setuje last_observed
-        // Ali mi ga setujemo u service-u
-    }
 
     public String getSensorId() {
         return id != null ? id.getSensorId() : null;

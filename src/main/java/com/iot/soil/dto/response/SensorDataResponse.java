@@ -1,6 +1,7 @@
 package com.iot.soil.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,8 @@ public class SensorDataResponse {
     public static class MeasurementData {
         private String property;
         private String unit;
+        @JsonIgnore
+        private Integer orderNumber;  // Za sortiranje iz baze
         private List<ValueData> values;
     }
 

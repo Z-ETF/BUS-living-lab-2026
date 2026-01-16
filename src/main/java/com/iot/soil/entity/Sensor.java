@@ -3,8 +3,7 @@ package com.iot.soil.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 
 @Entity
 @Table(name = "sensors")
@@ -28,10 +27,10 @@ public class Sensor {
     private String location;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt; // UKLONITE @CreationTimestamp
+    private Instant createdAt; // Changed to Instant for UTC
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt; // UKLONITE @UpdateTimestamp
+    private Instant updatedAt; // Changed to Instant for UTC
 
     @Builder.Default
     @Column(name = "is_active")
@@ -39,20 +38,18 @@ public class Sensor {
 
     @PrePersist
     public void prePersist() {
-        ZoneId belgradeZone = ZoneId.of("Europe/Belgrade");
-        LocalDateTime now = LocalDateTime.now(belgradeZone);
+        Instant now = Instant.now();
 
         if (createdAt == null) {
-            createdAt = now; // UTC+1
+            createdAt = now;
         }
         if (updatedAt == null) {
-            updatedAt = now; // UTC+1
+            updatedAt = now;
         }
     }
 
     @PreUpdate
     public void preUpdate() {
-        ZoneId belgradeZone = ZoneId.of("Europe/Belgrade");
-        updatedAt = LocalDateTime.now(belgradeZone); // UTC+1
+        updatedAt = Instant.now();
     }
 }

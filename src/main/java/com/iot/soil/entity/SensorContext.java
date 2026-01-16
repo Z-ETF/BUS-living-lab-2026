@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 
 @Entity
 @Table(name = "sensor_contexts")
@@ -32,13 +31,13 @@ public class SensorContext {
     private String contextUri;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt; // Changed to Instant for UTC
 
     @PrePersist
     public void prePersist() {
-        ZoneId belgradeZone = ZoneId.of("Europe/Belgrade");
+        // Store in UTC timezone using Instant
         if (createdAt == null) {
-            createdAt = LocalDateTime.now(belgradeZone);
+            createdAt = Instant.now();
         }
     }
 }

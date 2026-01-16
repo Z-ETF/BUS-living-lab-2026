@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "ssn": "http://www.w3.org/ns/ssn/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "ll": "https://livinglab.mf.unibl.org/ontology/soil/"
+  },
+
+  "sosa:madeBySensor": {
+    "@id": "ll:sensor-7in1-001",
+    "@type": "sosa:Sensor",
+    "rdfs:label": "7-in-1 Soil Sensor",
+    "sosa:observes": [
+      { "@id": "ll:SoilMoisture" },
+      { "@id": "ll:SoilTemperature" },
+      { "@id": "ll:SoilElectricalConductivity" },
+      { "@id": "ll:SoilPH" },
+      { "@id": "ll:SoilNitrogen" },
+      { "@id": "ll:SoilPhosphorus" },
+      { "@id": "ll:SoilPotassium" }
+    ]
+  },
+
+  "sosa:hasFeatureOfInterest": {
+    "@type": "sosa:FeatureOfInterest",
+    "rdfs:label": "Soil parameter measurements",
+    "ll:location": "Faculty of Mechanical Engineering, Banja Luka"
+  },
+
+  "sosa:hasMember": [
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilMoisture" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 32.5,
+        "qudt:unit": "unit:PERCENT"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilTemperature" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 18.7,
+        "qudt:unit": "unit:DEG_C"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilElectricalConductivity" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 1.42,
+        "qudt:unit": "unit:MilliS-PER-CentiM"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilPH" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 6.8
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilNitrogen" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 42,
+        "qudt:unit": "unit:MilliGM-PER-KiloGM"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilPhosphorus" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 18,
+        "qudt:unit": "unit:MilliGM-PER-KiloGM"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilPotassium" },
+      "sosa:phenomenonTime": "2025-12-30T12:00:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 95,
+        "qudt:unit": "unit:MilliGM-PER-KiloGM"
+      }
+    }
+  ]
+}
+
+

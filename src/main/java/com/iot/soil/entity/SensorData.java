@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Entity
@@ -40,7 +39,7 @@ public class SensorData {
     private Instant timestamp; // Ovo ostaje Instant za JSON timestamp
 
     @Column(name = "received_at")
-    private LocalDateTime receivedAt; // UKLONITE @CreationTimestamp
+    private Instant receivedAt; // Changed to Instant for proper UTC storage
 
     @Column(name = "location", length = 500)
     private String location;
@@ -50,9 +49,9 @@ public class SensorData {
 
     @PrePersist
     public void prePersist() {
-        ZoneId belgradeZone = ZoneId.of("Europe/Belgrade");
+        // Store in UTC timezone using Instant
         if (receivedAt == null) {
-            receivedAt = LocalDateTime.now(belgradeZone); // UTC+1
+            receivedAt = Instant.now();
         }
     }
 }

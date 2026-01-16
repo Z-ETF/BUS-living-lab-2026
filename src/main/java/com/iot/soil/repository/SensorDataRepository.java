@@ -35,12 +35,17 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Long> {
             @Param("startTime") Instant startTime,
             @Param("endTime") Instant endTime);
 
-    // NOVA METODA: Poslednje merenje za svaki tip merenja
-    @Query("SELECT sd FROM SensorData sd WHERE sd.sensorId = :sensorId " +
-            "AND sd.timestamp = (" +
-            "  SELECT MAX(sd2.timestamp) FROM SensorData sd2 " +
-            "  WHERE sd2.sensorId = sd.sensorId AND sd2.measurementType = sd.measurementType" +
-            ")")
+    // OPTIMIZED: Get latest measurement for each type using efficient query
+    @Query(value = "SELECT DISTINCT sd.* FROM sensor_data sd " +
+            "INNER JOIN (" +
+            "  SELECT measurement_type, MAX(timestamp) as max_timestamp " +
+            "  FROM sensor_data " +
+            "  WHERE sensor_id = :sensorId " +
+            "  GROUP BY measurement_type" +
+            ") latest ON sd.measurement_type = latest.measurement_type " +
+            "AND sd.timestamp = latest.max_timestamp " +
+            "AND sd.sensor_id = :sensorId " +
+            "ORDER BY sd.measurement_type", nativeQuery = true)
     List<SensorData> findLatestMeasurements(@Param("sensorId") String sensorId);
 
 

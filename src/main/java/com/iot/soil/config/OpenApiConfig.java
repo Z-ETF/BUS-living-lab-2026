@@ -15,10 +15,15 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI myOpenAPI() {
+        Server prodServer = new Server();
+        prodServer.setUrl("https://3.65.31.55:8443");
+        prodServer.setDescription("Production Server");
+
         Server devServer = new Server();
-        devServer.setUrl("http://localhost:8080");
+        devServer.setUrl("https://localhost:8443");
         devServer.setDescription("Development Server");
 
+        // ...existing code...
         Contact contact = new Contact();
         contact.setEmail("support@example.com");
         contact.setName("Soil Sensor API");
@@ -37,6 +42,6 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(devServer));
+                .servers(List.of(prodServer, devServer));
     }
 }

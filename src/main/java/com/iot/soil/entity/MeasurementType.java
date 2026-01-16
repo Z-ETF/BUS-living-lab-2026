@@ -36,11 +36,17 @@ public class MeasurementType {
     @Column(name = "data_type", length = 20)
     private String dataType; // Promenjeno iz Enum u String
 
+    @Column(name = "order_number")
+    private Integer orderNumber;  // Dinamički redosled iz baze
+
     @PrePersist
     @PreUpdate
     public void prepareForSave() {
         if (dataType == null) {
             dataType = "NUMERIC";
+        }
+        if (orderNumber == null) {
+            orderNumber = 999;  // Default redosled ako nije specificiran
         }
     }
 }

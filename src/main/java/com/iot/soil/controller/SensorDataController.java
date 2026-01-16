@@ -4,6 +4,7 @@ import com.iot.soil.dto.request.SensorObservationRequest;
 import com.iot.soil.dto.response.SensorDataResponse;
 import com.iot.soil.service.SensorDataService;
 import com.iot.soil.service.SensorQueryService;
+import com.iot.soil.service.UnitSyncService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,6 +30,7 @@ public class SensorDataController {
 
     private final SensorDataService sensorDataService;
     private final SensorQueryService sensorQueryService;
+    private final UnitSyncService unitSyncService;
 
     @Operation(
             summary = "Receive sensor observation",
@@ -54,7 +56,7 @@ public class SensorDataController {
 
             response.put("success", true);
             response.put("message", result);
-            response.put("timestamp", java.time.LocalDateTime.now().toString());
+            response.put("timestamp", java.time.Instant.now().toString()); // Uses UTC with Z suffix
 
             return ResponseEntity.ok(response);
 
@@ -63,7 +65,7 @@ public class SensorDataController {
 
             response.put("success", false);
             response.put("message", "Failed to process observation: " + e.getMessage());
-            response.put("timestamp", java.time.LocalDateTime.now().toString());
+            response.put("timestamp", java.time.Instant.now().toString()); // Uses UTC with Z suffix
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
@@ -205,6 +207,45 @@ public class SensorDataController {
         if ((from != null && to == null) || (from == null && to != null)) {
             throw new IllegalArgumentException(
                     "Both 'from' and 'to' parameters must be provided together for date range filtering");
+        }
+    }
+
+    @Operation(
+            summary = "Refresh unit mappings cache",
+            description = "Reload unit mappings from database and sync all measurement_types. Use this after updating unit_label values in the unit_mappings table."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Unit mappings refreshed and synchronized successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping("/refresh-units")
+    public ResponseEntity<Map<String, Object>> refreshUnitMappings() {
+        log.info("Refreshing unit mappings from database and syncing measurement_types");
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            // Refresh unit mappings cache in memory
+            sensorDataService.refreshUnitMappings();
+
+            // Sync all measurement_types with updated unit labels
+            int updatedCount = unitSyncService.syncUnitLabels();
+
+            response.put("success", true);
+            response.put("message", "Unit mappings refreshed and " + updatedCount + " measurement types synchronized");
+            response.put("updatedMeasurementTypes", updatedCount);
+            response.put("timestamp", java.time.Instant.now().toString()); // Uses UTC with Z suffix
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            log.error("Error refreshing unit mappings: {}", e.getMessage(), e);
+
+            response.put("success", false);
+            response.put("message", "Failed to refresh unit mappings: " + e.getMessage());
+            response.put("timestamp", java.time.Instant.now().toString()); // Uses UTC with Z suffix
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }

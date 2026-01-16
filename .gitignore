@@ -1,4 +1,14 @@
-# .gitignore
+# Maven
+target/
+*.jar
+*.war
+*.ear
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
 
 # IDE
 .idea/
@@ -9,54 +19,25 @@
 *.swp
 *.swo
 *~
-
-# Build
-target/
-build/
-*.class
-*.jar
-*.war
-*.ear
-
-# Maven
+.DS_Store
 .classpath
 .project
 .settings/
-dependency-reduced-pom.xml
-
-# Gradle
-.gradle/
-gradle/
-
-# Node (if used)
-node_modules/
-npm-debug.log
-yarn-error.log
+bin/
 
 # OS
-.DS_Store
 Thumbs.db
-*.log
+.DS_Store
 
-# Environment
+# Application
+*.log
+logs/
 .env
 .env.local
-.env.*.local
 
-# Text files in resources (documentation/config files)
-src/main/resources/*.txt
+# Node/Frontend (if applicable)
+node_modules/
+npm-debug.log
+dist/
+build/
 
-# SQL migration scripts (optional - keep if you want to track)
-# src/main/resources/*.sql
-
-# PowerShell scripts in resources
-src/main/resources/*.ps1
-
-# IntelliJ specific
-*.iml
-.idea/
-out/
-
-# VS Code
-.vscode/
-launch.json

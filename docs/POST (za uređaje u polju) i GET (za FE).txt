@@ -1,0 +1,212 @@
+Living-Lab-2026
+04012026
+
+Backend: https://3.65.31.55:9000/
+==================================================
+SENZORI
+
+Slanje podatka od uređaja u polju:
+Metod: POST
+Endpoint: https://3.65.31.55:9000/api/sensor-data/observations
+
+U Body JSON (mora biti struktura ispod)
+
+{
+  "@context": {
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "ssn": "http://www.w3.org/ns/ssn/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "ll": "https://livinglab.mf.unibl.org/ontology/soil/"
+  },
+
+  "sosa:madeBySensor": {
+    "@id": "ll:sensor-7in1-007",
+    "@type": "sosa:Sensor",
+    "rdfs:label": "7-in-1 Soil Sensor",
+    "sosa:observes": [
+      { "@id": "ll:SoilMoisture" },
+      { "@id": "ll:SoilTemperature" },
+      { "@id": "ll:SoilElectricalConductivity" },
+      { "@id": "ll:SoilPH" },
+      { "@id": "ll:SoilNitrogen" },
+      { "@id": "ll:SoilPhosphorus" },
+      { "@id": "ll:SoilPotassium" }
+    ]
+  },
+
+  "sosa:hasFeatureOfInterest": {
+    "@type": "sosa:FeatureOfInterest",
+    "rdfs:label": "Soil parameter measurements",
+    "ll:location": "Faculty of Mechanical Engineering, Banja Luka"
+  },
+
+  "sosa:hasMember": [
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilMoisture" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 43.5,
+        "qudt:unit": "unit:PERCENT"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilTemperature" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 29.7,
+        "qudt:unit": "unit:DEG_C"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilElectricalConductivity" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 20.33,
+        "qudt:unit": "unit:MilliS-PER-CentiM"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilPH" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 2.8
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilNitrogen" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 18,
+        "qudt:unit": "unit:MilliGM-PER-KiloGM"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilPhosphorus" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 2,
+        "qudt:unit": "unit:MilliGM-PER-KiloGM"
+      }
+    },
+    {
+      "@type": "sosa:Observation",
+      "sosa:observedProperty": { "@id": "ll:SoilPotassium" },
+      "sosa:phenomenonTime": "2026-01-04T00:41:00Z",
+      "sosa:hasResult": {
+        "qudt:numericValue": 29,
+        "qudt:unit": "unit:MilliGM-PER-KiloGM"
+      }
+    }
+  ]
+}
+
+Ako je zahtjev korektno poslat, dobija se JSON odgovor ispod i statusni kod 200 (HTTP 200 OK)
+
+{
+    "success": true,
+    "message": "Observation saved successfully",
+    "timestamp": "2026-01-04T21:33:01.668974101"
+}
+
+
+==================================================
+FRONTEND
+
+Zahtjev za podacima od FE aplikacije
+Metod: GET
+Endpoint: https://3.65.31.55:9000/api/sensor-data/{sensorId}/latest
+
+Npr. {sensorId}: sensor-7in1-001
+https://3.65.31.55:9000/api/sensor-data/sensor-7in1-001/latest
+
+U odgovoru vraća JSON sa posljednjim (prema timestamp-u "time" koji je dobijen od uređaja u polju) vrijednostima za sve tipove mjerenja od tog konkretnog senzora .
+
+
+{
+    "sensorId": "sensor-7in1-001",
+    "sensorName": "7-in-1 Soil Sensor",
+    "location": "Faculty of Mechanical Engineering, Banja Luka",
+    "data": [
+        {
+            "property": "Soil Moisture",
+            "unit": "%",
+            "values": [
+                {
+                    "time": "2026-01-04T00:58:00Z",
+                    "value": 33.5
+                }
+            ]
+        },
+        {
+            "property": "Soil Temperature",
+            "unit": "°C",
+            "values": [
+                {
+                    "time": "2026-01-04T00:52:00Z",
+                    "value": 39.7
+                }
+            ]
+        },
+        {
+            "property": "Soil Electrical Conductivity",
+            "unit": "mS/cm",
+            "values": [
+                {
+                    "time": "2026-01-04T00:42:00Z",
+                    "value": 20.33
+                }
+            ]
+        },
+        {
+            "property": "Soil PH",
+            "unit": "",
+            "values": [
+                {
+                    "time": "2026-01-04T00:42:00Z",
+                    "value": 2.8
+                }
+            ]
+        },
+        {
+            "property": "Soil Nitrogen",
+            "unit": "mg/kg",
+            "values": [
+                {
+                    "time": "2026-01-04T00:42:00Z",
+                    "value": 18.0
+                }
+            ]
+        },
+        {
+            "property": "Soil Phosphorus",
+            "unit": "mg/kg",
+            "values": [
+                {
+                    "time": "2026-01-04T00:42:00Z",
+                    "value": 2.0
+                }
+            ]
+        },
+        {
+            "property": "Soil Potassium",
+            "unit": "mg/kg",
+            "values": [
+                {
+                    "time": "2026-01-04T00:42:00Z",
+                    "value": 29.0
+                }
+            ]
+        }
+    ]
+}
+
+Ako je zahtjev korektno poslat, dobija se JSON u gornjem formatu i statusni kod 200 (HTTP 200 OK)
