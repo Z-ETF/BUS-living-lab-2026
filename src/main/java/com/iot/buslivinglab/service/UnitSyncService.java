@@ -1,4 +1,4 @@
-package com.iot.soil.service;
+package com.iot.buslivinglab.service;
 
 import com.iot.buslivinglab.entity.MeasurementType;
 import com.iot.buslivinglab.entity.UnitMapping;
@@ -67,4 +67,5 @@ public class UnitSyncService {
         }
     }
 }
+
 

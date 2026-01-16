@@ -1,4 +1,4 @@
-package com.iot.soil.exception;
+package com.iot.buslivinglab.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,3 +37,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
+

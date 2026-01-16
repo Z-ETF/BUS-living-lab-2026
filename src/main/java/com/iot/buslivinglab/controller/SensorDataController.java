@@ -1,4 +1,4 @@
-package com.iot.soil.controller;
+package com.iot.buslivinglab.controller;
 
 import com.iot.buslivinglab.dto.request.SensorObservationRequest;
 import com.iot.buslivinglab.dto.response.SensorDataResponse;
@@ -249,3 +249,4 @@ public class SensorDataController {
         }
     }
 }
+

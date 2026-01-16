@@ -1,4 +1,4 @@
-package com.iot.soil.service;
+package com.iot.buslivinglab.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -198,3 +198,4 @@ public class SensorDataService {
         sensorDataRepository.save(sensorData);
     }
 }
+

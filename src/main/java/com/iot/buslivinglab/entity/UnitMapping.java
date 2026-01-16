@@ -1,4 +1,4 @@
-package com.iot.soil.entity;
+package com.iot.buslivinglab.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,4 +28,5 @@ public class UnitMapping {
     @Builder.Default
     private Boolean isActive = true;
 }
+
 

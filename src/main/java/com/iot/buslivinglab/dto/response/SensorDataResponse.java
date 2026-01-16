@@ -1,4 +1,4 @@
-package com.iot.soil.dto.response;
+package com.iot.buslivinglab.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,3 +43,4 @@ public class SensorDataResponse {
         private Double value;
     }
 }
+

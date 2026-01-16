@@ -1,4 +1,4 @@
-package com.iot.soil.dto.request;
+package com.iot.buslivinglab.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -103,3 +103,4 @@ public class SensorObservationRequest {
         private String unit;
     }
 }
+

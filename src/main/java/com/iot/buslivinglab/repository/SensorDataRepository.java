@@ -1,4 +1,4 @@
-package com.iot.soil.repository;
+package com.iot.buslivinglab.repository;
 
 import com.iot.buslivinglab.entity.SensorData;
 import org.springframework.data.domain.PageRequest;
@@ -82,3 +82,4 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Long> {
     // Najnoviji podatak za senzor
     Optional<SensorData> findTopBySensorIdOrderByTimestampDesc(String sensorId);
 }
+

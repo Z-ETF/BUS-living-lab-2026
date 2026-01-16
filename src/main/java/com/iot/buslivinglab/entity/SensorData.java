@@ -1,4 +1,4 @@
-package com.iot.soil.entity;
+package com.iot.buslivinglab.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -55,3 +55,4 @@ public class SensorData {
         }
     }
 }
+

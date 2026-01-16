@@ -1,4 +1,4 @@
-package com.iot.soil.repository;
+package com.iot.buslivinglab.repository;
 
 import com.iot.buslivinglab.entity.SensorMeasurementType;
 import com.iot.buslivinglab.entity.SensorMeasurementTypeId;
@@ -22,3 +22,4 @@ public interface SensorMeasurementTypeRepository extends JpaRepository<SensorMea
         return existsById(id);
     }
 }
+

@@ -1,4 +1,4 @@
-package com.iot.soil.service;
+package com.iot.buslivinglab.service;
 
 import com.iot.buslivinglab.dto.response.SensorDataResponse;
 import com.iot.buslivinglab.entity.MeasurementType;
@@ -365,3 +365,4 @@ public class SensorQueryService {
         return buildSensorDataResponse(sensorId, measurementDataList, Optional.of(location));
     }
 }
+

@@ -1,4 +1,4 @@
-package com.iot.soil.service;
+package com.iot.buslivinglab.service;
 
 import com.iot.buslivinglab.dto.request.SensorObservationRequest;
 import com.iot.buslivinglab.entity.SensorContext;
@@ -89,4 +89,5 @@ public class SensorContextService {
         return fullSensorId;
     }
 }
+
 

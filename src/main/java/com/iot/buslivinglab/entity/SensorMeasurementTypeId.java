@@ -1,4 +1,4 @@
-package com.iot.soil.entity;
+package com.iot.buslivinglab.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -15,3 +15,4 @@ public class SensorMeasurementTypeId implements Serializable {
     private String sensorId;
     private String measurementType;
 }
+

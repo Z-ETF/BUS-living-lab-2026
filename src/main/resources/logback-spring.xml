@@ -78,7 +78,7 @@
     </appender>
 
     <!-- Logger for API requests/responses -->
-    <logger name="com.iot.soil.controller" level="DEBUG" additivity="false">
+    <logger name="com.iot.buslivinglab.controller" level="DEBUG" additivity="false">
         <appender-ref ref="API_LOG"/>
         <appender-ref ref="CONSOLE"/>
     </logger>
