@@ -13,10 +13,10 @@
     </parent>
 
     <groupId>com.iot</groupId>
-    <artifactId>soil-sensor-api</artifactId>
+    <artifactId>bus-living-lab2026</artifactId>
     <version>1.0.0</version>
-    <name>soil-sensor-api</name>
-    <description>Soil Sensor Data API</description>
+    <name>bus-living-lab2026</name>
+    <description>BUS Living Lab 2026 - Soil Sensor Data API</description>
 
     <properties>
         <java.version>21</java.version>
