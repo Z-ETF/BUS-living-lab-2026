@@ -25,7 +25,7 @@ import java.util.Map;
 @RequestMapping("/api/sensor-data")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Sensor Data", description = "Soil sensor data management APIs")
+@Tag(name = "Sensor Data Management", description = "BUS Living Lab 2026 - IoT soil sensor data management and retrieval APIs")
 public class SensorDataController {
 
     private final SensorDataService sensorDataService;

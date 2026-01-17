@@ -17,14 +17,14 @@
 
     <!-- Daily Rolling File Appender - Main Log -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/soil-sensor-api.log</file>
+        <file>${LOG_PATH}/bus-living-lab-2026.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS, UTC} [%thread] %-5level %logger{36} - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- Daily rollover -->
-            <fileNamePattern>${LOG_PATH}/soil-sensor-api-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/bus-living-lab-2026-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <!-- Keep 30 days of logs -->
             <maxHistory>30</maxHistory>
             <!-- Max file size before rolling -->

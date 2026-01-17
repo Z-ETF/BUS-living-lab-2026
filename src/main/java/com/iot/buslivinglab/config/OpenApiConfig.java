@@ -25,19 +25,21 @@ public class OpenApiConfig {
 
         // ...existing code...
         Contact contact = new Contact();
-        contact.setEmail("support@example.com");
-        contact.setName("Soil Sensor API");
-        contact.setUrl("https://example.com");
+        contact.setEmail("support@buslivinglab.com");
+        contact.setName("BUS Living Lab 2026 Team");
+        contact.setUrl("https://buslivinglab.com");
 
         License mitLicense = new License()
                 .name("MIT License")
                 .url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("Soil Sensor Data API")
-                .version("1.0")
+                .title("BUS Living Lab 2026 - Soil Sensor Data API")
+                .version("1.0.0")
                 .contact(contact)
-                .description("This API exposes endpoints for managing soil sensor data.")
+                .description("IoT Soil Sensor Data Management API for the BUS Living Lab 2026 project. " +
+                        "This API enables real-time collection, processing, and retrieval of sensor observations " +
+                        "from field devices using the SOSA/SSN standard format.")
                 .license(mitLicense);
 
         return new OpenAPI()
