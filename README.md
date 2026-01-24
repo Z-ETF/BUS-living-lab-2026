@@ -1,6 +1,6 @@
-# 🚌 BUS Living Lab 2026 - Soil Sensor Data API
+# Living Lab 2026 - Soil Sensor Data API
 
-A modern Spring Boot REST API for managing and querying IoT soil sensor data from the BUS Living Lab project. This application provides endpoints for receiving sensor observations, retrieving measurement data, and managing sensor configurations.
+A modern Spring Boot REST API for managing and querying IoT soil sensor data from the Living Lab project. This application provides endpoints for receiving sensor observations, retrieving measurement data, and managing sensor configurations.
 
 ## 📋 Table of Contents
 
@@ -21,7 +21,7 @@ A modern Spring Boot REST API for managing and querying IoT soil sensor data fro
 
 ## 📖 Overview
 
-BUS Living Lab 2026 is a comprehensive IoT sensor data platform designed to collect, process, and manage soil sensor observations from field devices. The API follows the **SOSA (Sensor, Observation, Sample, and Actuator)** and **SSN (Semantic Sensor Network)** standards for sensor data interoperability.
+Living Lab 2026 is a comprehensive IoT sensor data platform designed to collect, process, and manage soil sensor observations from field devices. The API follows the **SOSA (Sensor, Observation, Sample, and Actuator)** and **SSN (Semantic Sensor Network)** standards for sensor data interoperability.
 
 **Project Name:** bus-living-lab2026  
 **Version:** 1.0.0  
@@ -456,7 +456,7 @@ Output: `target/bus-living-lab2026-1.0.0.jar`
 
 ## 📝 License
 
-This project is part of the BUS Living Lab 2026 initiative. Please refer to the LICENSE file in the repository for details.
+This project is part of the Living Lab 2026 initiative. Please refer to the LICENSE file in the repository for details.
 
 ## 🤝 Contributing
 
