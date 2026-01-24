@@ -1,6 +1,6 @@
-# Living Lab 2026 - Soil Sensor Data API
+# Living Lab 2026 - Sensor Data API
 
-A modern Spring Boot REST API for managing and querying IoT soil sensor data from the Living Lab project. This application provides endpoints for receiving sensor observations, retrieving measurement data, and managing sensor configurations.
+A modern Spring Boot REST API for managing and querying IoT sensor data from the Living Lab project. This application provides endpoints for receiving sensor observations, retrieving measurement data, and managing sensor configurations.
 
 ## 📋 Table of Contents
 
